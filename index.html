@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>happy birthday!!</title>
+<!-- pls work i have a submission tomorrow -->
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #c9e8ff;
+  overflow: hidden;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* balloons */
+.balloon {
+  position: fixed;
+  bottom: -100px;
+  border-radius: 50% 50% 48% 52% / 54% 54% 46% 46%;
+  animation: rise linear infinite;
+  z-index: 1;
+}
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 18px;
+  background: rgba(0,0,0,0.2);
+}
+@keyframes rise {
+  0%   { transform: translateY(0);      opacity: 0; }
+  8%   { opacity: 0.9; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* confetti */
+.bit {
+  position: fixed;
+  top: -10px;
+  animation: drop linear infinite;
+  z-index: 1;
+}
+@keyframes drop {
+  0%   { transform: translateY(0) rotate(0deg);     opacity: 1; }
+  100% { transform: translateY(105vh) rotate(700deg); opacity: 0; }
+}
+
+/* main area */
+.stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* slides */
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* stickman + bubble wrapper */
+.guy {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* bubble */
+.bubble {
+  position: absolute;
+  background: white;
+  border: 2.5px solid #2266cc;
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #1a3a80;
+  text-align: center;
+  line-height: 1.6;
+  white-space: normal;
+  width: 200px;
+  box-shadow: 3px 3px 0 #a0c4f1;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.4s 0.9s, transform 0.4s 0.9s;
+}
+.slide.active .bubble {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* speech tail */
+.bubble.speech::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 18px;
+  border-top: 15px solid #2266cc;
+  border-left: 10px solid transparent;
+  border-right: 2px solid transparent;
+}
+.bubble.speech::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 20px;
+  border-top: 11px solid white;
+  border-left: 8px solid transparent;
+  border-right: 2px solid transparent;
+  z-index: 2;
+}
+
+/* thought dots */
+.bubble.think::after {
+  content: '. . .';
+  position: absolute;
+  bottom: -20px;
+  left: 14px;
+  font-size: 16px;
+  color: #2266cc;
+  letter-spacing: 3px;
+}
+
+/* ---- slide 1 : run in ---- */
+#s1 .guy {
+  transform: translateX(-450px);
+  transition: transform 0.9s ease-out;
+}
+#s1.active .guy {
+  transform: translateX(0);
+}
+
+@keyframes legA { 0%,100%{ transform: rotate(-28deg); } 50%{ transform: rotate(28deg); } }
+@keyframes legB { 0%,100%{ transform: rotate(28deg);  } 50%{ transform: rotate(-28deg); } }
+@keyframes armA { 0%,100%{ transform: rotate(-22deg); } 50%{ transform: rotate(22deg); } }
+@keyframes armB { 0%,100%{ transform: rotate(22deg);  } 50%{ transform: rotate(-22deg); } }
+@keyframes bob  { 0%,100%{ transform: translateY(0);  } 50%{ transform: translateY(-5px); } }
+
+.rbody { animation: bob  0.38s ease-in-out infinite; }
+.rl1   { transform-origin: 60px 108px; animation: legA 0.38s ease-in-out infinite; }
+.rl2   { transform-origin: 60px 108px; animation: legB 0.38s ease-in-out infinite; }
+.ra1   { transform-origin: 60px 70px;  animation: armA 0.38s ease-in-out infinite; }
+.ra2   { transform-origin: 60px 70px;  animation: armB 0.38s ease-in-out infinite; }
+
+/* ---- slide 2 : jump ---- */
+@keyframes jumping {
+  0%,100% { transform: translateY(0); }
+  10%     { transform: translateY(0) scaleX(0.9); }
+  40%,60% { transform: translateY(-70px); }
+  90%     { transform: translateY(0) scaleX(1.08); }
+}
+@keyframes armsfly { 0%,100%{ transform: rotate(0deg); } 40%,60%{ transform: rotate(-32deg); } }
+
+.jbody { animation: jumping 1.2s ease-in-out infinite; }
+.ja1   { transform-origin: 58px 70px;  animation: armsfly 1.2s ease-in-out infinite; }
+.ja2   { transform-origin: 62px 70px;  animation: armsfly 1.2s ease-in-out infinite reverse; }
+
+/* ---- slide 3 : dance ---- */
+@keyframes dancing {
+  0%   { transform: rotate(-7deg) translateY(0); }
+  25%  { transform: rotate(7deg)  translateY(-7px); }
+  50%  { transform: rotate(-7deg) translateY(0); }
+  75%  { transform: rotate(7deg)  translateY(-7px); }
+  100% { transform: rotate(-7deg) translateY(0); }
+}
+@keyframes dArmL { 0%,100%{ transform: rotate(-18deg); } 50%{ transform: rotate(18deg); } }
+@keyframes dArmR { 0%,100%{ transform: rotate(18deg);  } 50%{ transform: rotate(-18deg); } }
+@keyframes dLegL { 0%,100%{ transform: rotate(-14deg); } 50%{ transform: rotate(14deg); } }
+@keyframes dLegR { 0%,100%{ transform: rotate(14deg);  } 50%{ transform: rotate(-14deg); } }
+@keyframes hatup { 0%,100%{ transform: translateY(0);  } 50%{ transform: translateY(-5px); } }
+@keyframes blink { 0%,100%{ opacity:0; transform:scale(0); } 50%{ opacity:1; transform:scale(1); } }
+
+.dbody { animation: dancing 0.55s ease-in-out infinite; }
+.dal   { transform-origin: 60px 70px;   animation: dArmL 0.55s ease-in-out infinite; }
+.dar   { transform-origin: 60px 70px;   animation: dArmR 0.55s ease-in-out infinite; }
+.dll   { transform-origin: 60px 108px;  animation: dLegL 0.55s ease-in-out infinite; }
+.dlr   { transform-origin: 60px 108px;  animation: dLegR 0.55s ease-in-out infinite; }
+.phat  { animation: hatup  0.55s ease-in-out infinite; }
+.sp1   { animation: blink  0.8s ease-in-out infinite 0s; }
+.sp2   { animation: blink  0.8s ease-in-out infinite 0.28s; }
+.sp3   { animation: blink  0.8s ease-in-out infinite 0.55s; }
+
+/* ---- nav ---- */
+.nav {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.dots {
+  display: flex;
+  gap: 8px;
+}
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: 2px solid #2266cc;
+  cursor: pointer;
+}
+.dot.on {
+  background: #2266cc;
+  transform: scale(1.3);
+}
+.btn {
+  background: #2266cc;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 26px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #1a4499;
+  font-family: Arial;
+}
+.btn:hover  { background: #1a55bb; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #1a4499; }
+
+</style>
+</head>
+<body>
+
+<div id="bdiv" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:hidden;"></div>
+<div id="cdiv" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:hidden;"></div>
+
+<div class="stage">
+
+  <!-- slide 1: running in -->
+  <div class="slide active" id="s1">
+    <div class="guy">
+      <svg width="130" height="195" viewBox="0 0 120 190" overflow="visible">
+        <g class="rbody">
+          <circle cx="60" cy="28" r="20" fill="none" stroke="#1a2040" stroke-width="3.5"/>
+          <circle cx="53" cy="25" r="2.8" fill="#1a2040"/>
+          <circle cx="67" cy="25" r="2.8" fill="#1a2040"/>
+          <circle cx="54.5" cy="25" r="1.4" fill="white"/>
+          <circle cx="68.5" cy="25" r="1.4" fill="white"/>
+          <path d="M52 35 Q60 41 68 35" fill="none" stroke="#1a2040" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="60" y1="48" x2="60" y2="108" stroke="#1a2040" stroke-width="3.5" stroke-linecap="round"/>
+          <line class="ra1" x1="60" y1="70" x2="30" y2="93" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="ra2" x1="60" y1="70" x2="90" y2="88" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="rl1" x1="60" y1="108" x2="37" y2="152" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="rl2" x1="60" y1="108" x2="83" y2="148" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div class="bubble think" style="top:-10px; right:-225px;">
+        Psst.... Come here!<br>I have something<br>to tell you 👀
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 2: jumping -->
+  <div class="slide" id="s2">
+    <div class="guy">
+      <svg width="135" height="210" viewBox="0 0 125 205" overflow="visible">
+        <g class="jbody">
+          <circle cx="60" cy="28" r="20" fill="none" stroke="#1a2040" stroke-width="3.5"/>
+          <text x="48" y="31" font-size="12" fill="#1a2040">★</text>
+          <text x="63" y="31" font-size="12" fill="#1a2040">★</text>
+          <path d="M46 38 Q60 50 74 38" fill="none" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="45" cy="36" rx="7" ry="4.5" fill="rgba(100,160,255,0.3)"/>
+          <ellipse cx="75" cy="36" rx="7" ry="4.5" fill="rgba(100,160,255,0.3)"/>
+          <line x1="60" y1="48" x2="60" y2="108" stroke="#1a2040" stroke-width="3.5" stroke-linecap="round"/>
+          <line class="ja1" x1="60" y1="70" x2="24" y2="47" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="ja1" x1="24" y1="47" x2="16" y2="58" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="ja2" x1="60" y1="70" x2="96" y2="47" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="ja2" x1="96" y1="47" x2="104" y2="58" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="108" x2="42" y2="145" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line x1="42" y1="145" x2="30" y2="137" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="108" x2="78" y2="145" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line x1="78" y1="145" x2="90" y2="137" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div class="bubble speech" style="top:-5px; right:-218px;">
+        It's something<br>special!!! ✨✨
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 3: dancing -->
+  <div class="slide" id="s3">
+    <div class="guy">
+      <svg width="150" height="235" viewBox="0 0 130 225" overflow="visible">
+        <text class="sp1" x="6"   y="52"  font-size="17" fill="#3384d6">✨</text>
+        <text class="sp2" x="106" y="44"  font-size="15" fill="#ffcc00">⭐</text>
+        <text class="sp3" x="4"   y="102" font-size="13" fill="#3384d6">💫</text>
+        <text class="sp1" x="107" y="94"  font-size="13" fill="#ffcc00">✨</text>
+        <g class="dbody">
+          <g class="phat">
+            <polygon points="60,0 44,32 76,32" fill="#3384d6" stroke="#1a55bb" stroke-width="2"/>
+            <circle cx="60" cy="1" r="5" fill="#ffdd00"/>
+            <line x1="52" y1="13" x2="48" y2="24" stroke="white" stroke-width="1.5" opacity="0.6"/>
+            <line x1="60" y1="8"  x2="60" y2="22" stroke="white" stroke-width="1.5" opacity="0.6"/>
+            <line x1="68" y1="13" x2="72" y2="24" stroke="white" stroke-width="1.5" opacity="0.6"/>
+          </g>
+          <circle cx="60" cy="38" r="20" fill="none" stroke="#1a2040" stroke-width="3.5"/>
+          <path d="M50 32 Q55 27 60 32" fill="none" stroke="#1a2040" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M60 32 Q65 27 70 32" fill="none" stroke="#1a2040" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M46 46 Q60 58 74 46" fill="none" stroke="#1a2040" stroke-width="3"   stroke-linecap="round"/>
+          <ellipse cx="45" cy="45" rx="7" ry="4.5" fill="rgba(100,160,255,0.32)"/>
+          <ellipse cx="75" cy="45" rx="7" ry="4.5" fill="rgba(100,160,255,0.32)"/>
+          <line x1="60" y1="58" x2="60" y2="118" stroke="#1a2040" stroke-width="3.5" stroke-linecap="round"/>
+          <line class="dal" x1="60" y1="76" x2="20" y2="60" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dal" x1="20" y1="60" x2="12" y2="72" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dar" x1="60" y1="76" x2="100" y2="63" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dar" x1="100" y1="63" x2="108" y2="75" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dll" x1="60" y1="118" x2="39" y2="158" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dll" x1="39" y1="158" x2="47" y2="173" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dlr" x1="60" y1="118" x2="81" y2="155" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+          <line class="dlr" x1="81" y1="155" x2="75" y2="171" stroke="#1a2040" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div class="bubble think" style="top:-18px; right:-220px; font-size:17px;">
+        HAPPYYYY<br>BIRTHDAYYYY JAYYY!!!<br>🎉🎉🎉
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <div class="dots">
+    <div class="dot on"  onclick="goTo(0)"></div>
+    <div class="dot"     onclick="goTo(1)"></div>
+    <div class="dot"     onclick="goTo(2)"></div>
+  </div>
+  <button class="btn" id="mybtn" onclick="goNext()">Next →</button>
+</div>
+
+<script>
+
+// balloons
+var bcolors = ['#9ec8ff','#ffcc66','#b3f0ff','#cc99ff','#99ffcc','#ffaa77'];
+var bdiv = document.getElementById('bdiv');
+for (var i = 0; i < 12; i++) {
+  var b = document.createElement('div');
+  b.className = 'balloon';
+  var w = 28 + Math.random() * 22;
+  b.style.left = Math.random() * 95 + '%';
+  b.style.width = w + 'px';
+  b.style.height = (w * 1.3) + 'px';
+  b.style.background = bcolors[i % bcolors.length];
+  b.style.animationDuration = (7 + Math.random() * 8) + 's';
+  b.style.animationDelay = '-' + (Math.random() * 10) + 's';
+  b.style.opacity = '0.85';
+  bdiv.appendChild(b);
+}
+
+// confetti
+var ccolors = ['#69b4ff','#ff6b6b','#ffd93d','#6bcb77','#cc66ff','#ffaa44'];
+var cdiv = document.getElementById('cdiv');
+for (var j = 0; j < 22; j++) {
+  var c = document.createElement('div');
+  c.className = 'bit';
+  var s = 6 + Math.random() * 8;
+  c.style.left = Math.random() * 100 + '%';
+  c.style.width = s + 'px';
+  c.style.height = s + 'px';
+  c.style.background = ccolors[j % ccolors.length];
+  c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+  c.style.animationDuration = (4 + Math.random() * 6) + 's';
+  c.style.animationDelay = '-' + (Math.random() * 6) + 's';
+  cdiv.appendChild(c);
+}
+
+// slides
+var slides = ['s1', 's2', 's3'];
+var dots = document.querySelectorAll('.dot');
+var btn = document.getElementById('mybtn');
+var cur = 0;
+
+function goTo(n) {
+  document.getElementById(slides[cur]).classList.remove('active');
+  dots[cur].classList.remove('on');
+  cur = n;
+  document.getElementById(slides[cur]).classList.add('active');
+  dots[cur].classList.add('on');
+  btn.textContent = cur == slides.length - 1 ? '🎉 Replay!' : 'Next →';
+}
+
+function goNext() {
+  goTo(cur == slides.length - 1 ? 0 : cur + 1);
+}
+
+document.onkeydown = function(e) {
+  if (e.key == 'ArrowRight') goNext();
+  if (e.key == 'ArrowLeft' && cur > 0) goTo(cur - 1);
+}
+
+</script>
+</body>
+</html>
